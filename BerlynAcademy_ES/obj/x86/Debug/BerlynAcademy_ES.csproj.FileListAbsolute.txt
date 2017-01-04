@@ -1476,3 +1476,5 @@ C:\Users\Elandra\Desktop\2 - Thesis - improving 20 - Working with sibling disc\B
 C:\Users\Elandra\Desktop\2 - Thesis - improving 20 - Working with sibling disc\BerlynAcademy_ES\obj\x86\Debug\BerlynAcademy_ES.frmAudit.resources
 C:\Users\Elandra\Desktop\2 - Thesis - improving 20 - Working with sibling disc\BerlynAcademy_ES\obj\x86\Debug\BerlynAcademy_ES.Properties.Resources.resources
 C:\Users\Elandra\Desktop\2 - Thesis - improving 20 - Working with sibling disc\BerlynAcademy_ES\obj\x86\Debug\BerlynAcademy_ES.csproj.GenerateResource.Cache
+C:\Users\Elandra\Desktop\GithubProjects\BerlynAcademy\berlynacademy\BerlynAcademy_ES\obj\x86\Debug\BerlynAcademy_ES.exe
+C:\Users\Elandra\Desktop\GithubProjects\BerlynAcademy\berlynacademy\BerlynAcademy_ES\obj\x86\Debug\BerlynAcademy_ES.pdb

@@ -16,6 +16,7 @@ namespace BerlynAcademy_ES
         public string adminlog,VISITED;
         public frmHomeMaintenance()
         {
+            // Initialize Component
             InitializeComponent();
         }
 
