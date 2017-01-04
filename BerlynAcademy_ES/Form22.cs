@@ -12,7 +12,7 @@ namespace BerlynAcademy_ES
 {
     public partial class frmRegistrarMain : Form
     {
-        OdbcConnection con = new OdbcConnection("DRIVER={MySQL ODBC 3.51 DRIVER};USER=root;SERVER=localhost;PWD=leebert;DB=berlyn");
+        OdbcConnection con = new OdbcConnection("DRIVER={MySQL ODBC 3.51 DRIVER};USER=root;SERVER=localhost;PWD=sa;DB=berlyn");
         public string reglog, accesscode, emptype, co, thefac, VISITED, notifstat,activeSY,activeYr;
         public bool isVisited, viewNotifDue, viewNotifDisc, viewNotifLate;
 

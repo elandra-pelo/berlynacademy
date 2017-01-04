@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BerlynAcademy_ES", "BerlynAcademy_ES\BerlynAcademy_ES.csproj", "{A646A7F2-F16E-4E36-8396-55A493F1388F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{35BB2D66-FB30-4BB1-A2E0-C1032F9DB094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

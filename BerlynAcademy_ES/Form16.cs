@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.Odbc;
+using System.Globalization;
 
 namespace BerlynAcademy_ES
 {
     public partial class frmSched : Form
     {
-        OdbcConnection con = new OdbcConnection("DRIVER={MySQL ODBC 3.51 DRIVER};USER=root;SERVER=localhost;PWD=leebert;DB=berlyn");
+        OdbcConnection con = new OdbcConnection("DRIVER={MySQL ODBC 3.51 DRIVER};USER=root;SERVER=localhost;PWD=sa;DB=berlyn");
         public string schedlog,classgrade,classsec,day,primarykey,tempsubj,tempdays,selectedfac,VISITED,day1code,day2code,emptype;
         public string CO, accesscode, TheFaculty, notifstat;
         public bool viewNotifDue, viewNotifLate, viewNotifDisc,isVisited;
@@ -1092,6 +1093,7 @@ namespace BerlynAcademy_ES
                         {
                             for (int i = 0; i < dtc1.Rows.Count; i++)
                             {
+                                DateTime dateTime = DateTime.ParseExact(dtc.Rows[i].ItemArray[6].ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
                                 float dbstart = Convert.ToSingle(dtc.Rows[i].ItemArray[6].ToString().Substring(0, 2) + dtc.Rows[i].ItemArray[6].ToString().Substring(3, 2));
                                 float dbend = Convert.ToSingle(dtc.Rows[i].ItemArray[7].ToString().Substring(0, 2) + dtc.Rows[i].ItemArray[7].ToString().Substring(3, 2));
                                 string dbday = dtc1.Rows[i].ItemArray[8].ToString();
@@ -1339,24 +1341,40 @@ namespace BerlynAcademy_ES
                 //-----------------------------------
                 //this will check the start hour
                 con.Open();
-                OdbcDataAdapter daxxx1 = new OdbcDataAdapter("Select*from schedule_tbl where section='" + classsec + "'and level='" + classgrade + "'", con);
+                //OdbcDataAdapter daxxx1 = new OdbcDataAdapter("Select*from schedule_tbl where section='" + classsec + "'and level='" + classgrade + "'", con);
+                string query = @"
+                   SELECT *
+                   FROM schedule_tbl AS tb
+                   WHERE tb.level = '{0}'
+                   AND tb.section = '{1}'
+                   AND (
+                      STR_TO_DATE(tb.start, '%h:%i %p') >= STR_TO_DATE('{2}', '%h:%i %p')
+                      OR
+                      STR_TO_DATE(tb.end, '%h:%i %p') <= STR_TO_DATE('{3}', '%h:%i %p')
+                   )
+                   AND (tb.days LIKE '{4}-%' OR tb.days LIKE '%-{5}');
+                ";
+                string formattedQuery = string.Format(query, classgrade, classsec, start, end, day1code, day2code);
+                OdbcDataAdapter daxxx1 = new OdbcDataAdapter(formattedQuery, con);
                 DataTable dtxxx1 = new DataTable();
                 daxxx1.Fill(dtxxx1);
                 con.Close();
                 if (dtxxx1.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dtxxx1.Rows.Count; i++)
-                    {
-                        string dbhourstart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(0, 2);//2 DIGIT HR.
-                        string dbminstart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(3, 2);//2 DIGIT min.
-                        string unitdaystart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(6, 2);//AM OR PM
-                        string dbday = dtxxx1.Rows[i].ItemArray[8].ToString();
-                        if ((dbhourstart == dudHrStart.Text) && (dbminstart == dudMinStart.Text) && (unitdaystart == cmbDayStart.Text)&&(dbday.Contains(day1code) == true || dbday.Contains(day2code) == true))
-                        {
-                            MessageBox.Show("Conflict schedule in " + classsec, "Schedule maintenance103", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                    }
+                    MessageBox.Show("Conflict schedule in " + classsec, "Schedule maintenance103", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                    //for (int i = 0; i < dtxxx1.Rows.Count; i++)
+                    //{
+                    //    string dbhourstart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(0, 2);//2 DIGIT HR.
+                    //    string dbminstart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(3, 2);//2 DIGIT min.
+                    //    string unitdaystart = dtxxx1.Rows[i].ItemArray[6].ToString().Substring(6, 2);//AM OR PM
+                    //    string dbday = dtxxx1.Rows[i].ItemArray[8].ToString();
+                    //    if ((dbhourstart == dudHrStart.Text) && (dbminstart == dudMinStart.Text) && (unitdaystart == cmbDayStart.Text)&&(dbday.Contains(day1code) == true || dbday.Contains(day2code) == true))
+                    //    {
+                    //        MessageBox.Show("Conflict schedule in " + classsec, "Schedule maintenance103", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //        return;
+                    //    }
+                    //}
                 }
                 //this wil check the class end hour
                 con.Open();
